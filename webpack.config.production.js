@@ -1,0 +1,112 @@
+var path = require('path');
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+module.exports = {
+    entry: {
+        'app': './app/js/index',
+        'vendor': [
+            'react',
+            'react-dom',
+            'babel-polyfill',
+            'react-redux',
+            'react-tap-event-plugin',
+            'redux',
+            'react-router',
+            'redux-devtools',
+            'redux-devtools-log-monitor',
+            'redux-devtools-dock-monitor'
+        ]
+    },
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: "[name].[hash:8].js"
+    },
+    resolve: {
+        alias: {
+            'redux': path.join(__dirname, 'node_modules/redux'),
+            js: path.join(__dirname, "app/js"),
+            style: path.join(__dirname, "app/style"),
+            assets: path.join(__dirname, "app/assets"),
+
+            actions: path.join(__dirname, "app/js/actions"),
+            components: path.join(__dirname, "app/js/components"),
+            middleware: path.join(__dirname, "app/js/middleware"),
+            reducers: path.join(__dirname, "app/js/reducers"),
+            server: path.join(__dirname, "app/js/server"),
+            store: path.join(__dirname, "app/js/store"),
+            view: path.join(__dirname, "app/js/view"),
+
+            util: path.join(__dirname, "app/js/util.js"),
+            config: path.join(__dirname, "app/js/config.js")
+        },
+        extensions: ['', '.js']
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                loaders: ['babel'],
+                exclude: /node_modules/,
+                include: path.join(__dirname, 'app', 'js')
+            },
+            {
+                test: /\.css/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader")
+            },
+            {
+                test: /\.scss/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!sass-loader")
+            },
+            {
+                test: /\.less/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader")
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'url?limit=8192'
+            },
+            {
+                test: /\.(woff|woff2|ttf|svg|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000"
+            }
+        ]
+    },
+    plugins: [
+        //生产环境不需要该插件，暂不清楚如何取消import
+        //new webpack.IgnorePlugin(/redux-devtools|redux-devtools-log-monitor|redux-devtools-dock-monitor/),
+        new webpack.DefinePlugin({
+            __DEVELOPMENT__: false,
+            __DEVTOOLS__: false,
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.[hash:8].js'),
+        new webpack.optimize.UglifyJsPlugin({
+            compressor: {
+                warnings: false
+            }
+        }),
+        new ExtractTextPlugin("app.[hash:8].css", {
+            allChunks: true,
+            disable: false
+        }),
+        new HtmlWebpackPlugin({
+            inject: false,
+            title: 'Redux React Router Async Example',
+            filename: 'index.html',
+            template: 'index.template.html',
+            favicon: path.join(__dirname, 'app', 'assets', 'images', 'favicon.ico')
+        }),
+        // 查找相等或近似的模块，避免在最终生成的文件中出现重复的模块
+        new webpack.optimize.DedupePlugin(),
+        // 按引用频度来排序 ID，以便达到减少文件大小的效果
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.AggressiveMergingPlugin({
+            minSizeReduce: 1.5,
+            moveToParents: true
+        })
+    ]
+};

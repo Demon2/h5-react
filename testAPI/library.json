@@ -1,0 +1,36 @@
+{
+    "success": 1,
+    "result": {
+        "data":[
+        	{
+        		"id": 1,
+        		"name":"会计基础1",
+        		"categoryId":111,
+        		"questionNum":0,
+                "createdTime":"2016-09-21T00:27:47+08:00"
+        	},
+            {
+                "id": 2,
+                "name":"会计基础2",
+                "categoryId":111,
+                "questionNum":0,
+                "createdTime":"2016-09-21T00:27:47+08:00"
+            },
+            {
+                "id": 3,
+                "name":"会计基础3",
+                "categoryId":111,
+                "questionNum":0,
+                "createdTime":"2016-09-21T00:27:47+08:00"
+            },
+            {
+                "id":4,
+                "name":"会计基础4",
+                "categoryId":111,
+                "questionNum":0,
+                "createdTime":"2016-09-21T00:27:47+08:00"
+            }
+        ],
+        "paging": {"totalCount": 100,"totalPage": 10}
+    }
+}

@@ -1,0 +1,58 @@
+.test {
+  color: red;
+}
+.test2{
+  font-size: 24px;
+  }
+
+modal-actions {
+  top:0;
+  bottom: inherit;
+}
+
+.GlobalLoading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+  background-color: transparent;
+  .loading-toast {
+    width: 188px;
+    height: 58px;
+    background-color: rgba(0, 0, 0, .7);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -94px;
+    margin-top: -29px;
+    line-height: 58px;
+    color: #fff;
+    font-size: 1pc;
+    font-weight: 700;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+  }
+  .spinner {
+    stroke: #fff;
+    height: 40px;
+    padding-left: 15px;
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  .loading-page {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    text-align: center;
+    padding-top: 150px;
+    .spinner{
+      stroke: #000;
+      padding-left: 0;
+      padding-right: 15px;
+    }
+  }
+}
